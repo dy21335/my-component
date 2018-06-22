@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!--<router-view/>-->
-    <load size="14px" ></load>
+    <load size="14px" :radius= '100' > </load>
   </div>
 </template>
 

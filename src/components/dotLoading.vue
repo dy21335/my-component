@@ -29,7 +29,7 @@ export default {
     },
     radius: {
       type: Number,
-      default: 100
+      default: 50
     }
   },
   methods: {
@@ -46,7 +46,7 @@ export default {
         dotY = Math.sin(rad) * this.radius
         fixStr = {width: size, height: size, borderRadius: size, top: -dotY + 'px', left: dotX + 'px', backgroundColor: this.color, animationDelay: 1 / this.numbers * i + 's'}
         this.dotsStyle.push(Object.assign({}, fixStr))
-        console.log(`第${i}个圆点对应的坐标为：${dotX},${dotY}`)
+        // console.log(`第${i}个圆点对应的坐标为：${dotX},${dotY}`)
       }
     }
   },
