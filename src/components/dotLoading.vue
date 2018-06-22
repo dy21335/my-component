@@ -70,7 +70,7 @@ export default {
     margin: 0;
     width: 1px;
     height: 1px;
-    background-color: #660000;
+    /*background-color: #660000;*/
   }
   li{
     visibility: hidden;
