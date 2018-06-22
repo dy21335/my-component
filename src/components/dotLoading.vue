@@ -54,8 +54,8 @@ export default {
     this.dotStyle(this.size, this.color)
   },
   mounted () {
-    this.$refs.container.style.width = '300px'
-    this.$refs.container.style.height = '300px'
+    this.$refs.container.style.width = (this.radius + parseInt(this.size)) * 2 + 'px'
+    this.$refs.container.style.height = (this.radius + parseInt(this.size)) * 2 + 'px'
   }
 }
 </script>
