@@ -12,59 +12,56 @@
 
 5. 整个项目运行流程。
 
-   
+<br>
 
 ## 1. 运行环境
 
-1.1 不同于传统的开发环境，我们的项目是属于混合开发模式；
+1.1&ensp; 不同于传统的开发环境，我们的项目是属于混合开发模式；
 
-1.2 客户端有两种内嵌的浏览器框架：
+1.2&ensp; 客户端有两种内嵌的浏览器框架：
 
-​	1.2.1一种是`qt webkit`内核；
+&emsp;  1.2.1&ensp; 一种是`qt webkit`内核；
 
 ​	如下页面和控制台（ctrl + F8）就是基于`qt webkit`内核：
 
 <img src="http://ww1.sinaimg.cn/large/ec07bbd2gy1fsgr5zfh83j20li0ihagq.jpg" width="700px" />
-
+<br>
 ![](http://ww1.sinaimg.cn/large/ec07bbd2gy1fsgrlczg0aj20af0dqjts.jpg)
 
+<br>
 
-
-​	1.2.2 另一种是`cef`，基于Google Chromium的Webbrowser控件。
+&emsp;  1.2.2&ensp; 另一种是`cef`，基于Google Chromium的Webbrowser控件。
 
 ​	如下两图所示，智能排版页面就是基于`cef`内核实现的，它的控制台也有所不同:
 
 ![](http://ww1.sinaimg.cn/large/ec07bbd2gy1fsgr9m7gjsj20cb0giwhw.jpg)
+<br>
 
 ![](http://ww1.sinaimg.cn/large/ec07bbd2gy1fsgre5k3erj20nm0batb8.jpg)
 
+<br>
 
+1.3&ensp; 项目中通信主要分为以下**四种**：
 
+&emsp;  1.3.1&ensp; 前端与客户端通信，类似jsonP形式：前端实现与客户端约定好的全局回调方法，传递指令给客户端，客户端调用此方法；
 
+&emsp;  1.3.2&ensp; 前端实现一个全局回调方法，客户端可随时调用此方法；
 
-1.3 项目中通信主要分为以下**四种**：
+&emsp;  1.3.3&ensp; 在某种特定情况下，客户端会触发广播事件，不同前端项目需要响应此广播指令，在window上定义相应的回调函数；
 
-​	1.3.1 前端与客户端通信，类似jsonP形式：前端实现与客户端约定好的全局回调方法，传递指令给客户端，客户端调用此方法；
+&emsp;  1.3.4&ensp; 前端与服务端通信：由于项目存放在本地，ajax无效，通过客户端作为代理，向服务端发送请求。
 
-​	1.3.2 前端实现一个全局回调方法，客户端可随时调用此方法；
+&emsp;  &emsp;  <1>&ensp; 常规的ajax向服务端请求数据的协议是 http://，由于运行的为本地文件，所以协议头为file://，产生了跨域不可用，解决办法是由客户端提供专用网络请求接口 httpGet/httpPost；
 
-​	1.3.3 在某种特定情况下，客户端会触发广播事件，不同前端项目需要响应此广播指令，在window上定义相应的回调函数；
+&emsp;  &emsp;  <2>&ensp; 通过抓包工具查看客户端向服务端发起的请求；
 
-​	1.3.4 前端与服务端通信：由于项目存放在本地，ajax无效，通过客户端作为代理，向服务端发送请求。
-
-​		<1> 常规的ajax向服务端请求数据的协议是 http://，由于运行的为本地文件，所以协议头为file://，产生了跨域不可用，解决办法是由客户端提供专用网络请求接口 httpGet/httpPost；
-
-​		<2> 通过抓包工具查看客户端向服务端发起的请求；
-
-​		<3> 以智能排版为例，智能排版的缩略图就是向服务端请求的数据，如下图：
+&emsp;  &emsp;  <3>&ensp; 以智能排版为例，智能排版的缩略图就是向服务端请求的数据，如下图：
 
 ![](http://ww1.sinaimg.cn/large/ec07bbd2gy1fshel4ub9pj20hr0fugqk.jpg)
 
+<br>
 
-
-
-
-1.4 服务端接口返回的格式通常如下，特殊情况会有所不一样：
+1.4&ensp; 服务端接口返回的格式通常如下，特殊情况会有所不一样：
 
 > result： http状态;
 >
@@ -76,7 +73,7 @@
 
 参考链接：http://cloud-doc.wps.cn/account/
 
-
+<br>
 
 ## 2. 项目结构
 
@@ -172,7 +169,7 @@
 |-- yarn.lock
 ```
 
-
+<br>
 
 ## 3. 主要文件的讲解
 
@@ -318,7 +315,7 @@
 
   + 提供文档美化相关API。
 
-
+<br>
 
 ### 3.2 page文件
 
@@ -367,17 +364,20 @@
   </script>
   ```
 
-
+<br>
 
 ## 4. 代码编写注意事项
 
-- 符合[eslint编码规范](https://github.com/standard/standard/blob/master/docs/RULES-zhcn.md)；
-- 注意模块化，保证每个模块都是一个独立的单元，不要暴露模块内部方法（通常以_开头）；
-- 使用ES6语法；
-- 注意软编码，不要写死配置，以灵活应对需求变动。
+4.1&ensp; 符合[eslint编码规范](https://github.com/standard/standard/blob/master/docs/RULES-zhcn.md)；
 
+4.2&ensp; 注意模块化，保证每个模块都是一个独立的单元，不要暴露模块内部方法（通常以_开头）；
 
+4.3&ensp; 使用ES6语法；
+
+4.4&ensp; 注意软编码，不要写死配置，以灵活应对需求变动。
+
+<br>
 
 ## 5. 整个项目运行流程
 
-+ ai-create-wpp项目的运行请查看该项目readme文档；
+5.1&ensp; ai-create-wpp项目的运行请查看该项目readme文档；
