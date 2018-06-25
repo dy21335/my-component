@@ -2,84 +2,80 @@
 
 本文目录为：
 
-+ 运行环境；
+1. 运行环境；
 
-+ 项目结构；
+2. 项目结构；
 
-+ 主要文件的讲解；
+3. 主要文件的讲解；
 
-+ 代码编写注意事项；
+4. 代码编写注意事项；
 
-+ 整个项目运行流程。
+5. 整个项目运行流程。
 
-  
+   
 
-## 运行环境
+## 1. 运行环境
 
-+ 不同于传统的开发环境，我们的项目是属于混合开发模式；
+1.1 不同于传统的开发环境，我们的项目是属于混合开发模式；
 
-+ 客户端有两种内嵌的浏览器框架：
+1.2 客户端有两种内嵌的浏览器框架：
 
-  + 一种是`qt webkit`内核；
++ 一种是`qt webkit`内核；
 
-    
+​	如下页面就是基于`qt webkit`内核实现的：
 
-    如下页面就是基于`qt webkit`内核实现的：
+![](http://ww1.sinaimg.cn/large/ec07bbd2gy1fsgr5zfh83j20li0ihagq.jpg)
 
-    ![](http://ww1.sinaimg.cn/large/ec07bbd2gy1fsgr5zfh83j20li0ihagq.jpg)
 
-    
 
-    （在开发版本下）控制台显示为（ctrl+F8）：
+​	（在开发版本下）控制台显示为（ctrl+F8）：
 
-    ![](http://ww1.sinaimg.cn/large/ec07bbd2gy1fsgrlczg0aj20af0dqjts.jpg)
+![](http://ww1.sinaimg.cn/large/ec07bbd2gy1fsgrlczg0aj20af0dqjts.jpg)
 
-    
 
-  + 另一种是`cef`，基于Google Chromium的Webbrowser控件。
 
-    
++ 另一种是`cef`，基于Google Chromium的Webbrowser控件。
 
-    如下两图所示，智能排版页面就是基于`cef`内核实现的，它的控制台也有所不同:
+​	如下两图所示，智能排版页面就是基于`cef`内核实现的，它的控制台也有所不同:
 
-    ![](http://ww1.sinaimg.cn/large/ec07bbd2gy1fsgr9m7gjsj20cb0giwhw.jpg)
+![](http://ww1.sinaimg.cn/large/ec07bbd2gy1fsgr9m7gjsj20cb0giwhw.jpg)
 
-    ![](http://ww1.sinaimg.cn/large/ec07bbd2gy1fsgre5k3erj20nm0batb8.jpg)
+![](http://ww1.sinaimg.cn/large/ec07bbd2gy1fsgre5k3erj20nm0batb8.jpg)
 
-    
 
-    
 
-+ 项目中通信主要分为以下**四种**：
 
-  + 前端与客户端通信，类似jsonP形式：前端实现与客户端约定好的全局回调方法，传递指令给客户端，客户端调用此方法；
-  + 前端实现一个全局回调方法，客户端可随时调用此方法；
-  + 在某种特定情况下，客户端会触发广播事件，不同前端项目需要响应此广播指令，在window上定义相应的回调函数；
-  + 前端与服务端通信：由于项目存放在本地，ajax无效，通过客户端作为代理，向服务端发送请求。
-    + 常规的ajax向服务端请求数据的协议是 http://，由于运行的为本地文件，所以协议头为file://，产生了跨域不可用，解决办法是由客户端提供专用网络请求接口 httpGet/httpPost；
 
-    + 通过抓包工具查看客户端向服务端发起的请求；
-    + 以智能排版为例，智能排版的缩略图就是向服务端请求的数据：
+1.3 项目中通信主要分为以下**四种**：
 
-  ![](http://ww1.sinaimg.cn/large/ec07bbd2gy1fshel4ub9pj20hr0fugqk.jpg)
++ 前端与客户端通信，类似jsonP形式：前端实现与客户端约定好的全局回调方法，传递指令给客户端，客户端调用此方法；
++ 前端实现一个全局回调方法，客户端可随时调用此方法；
++ 在某种特定情况下，客户端会触发广播事件，不同前端项目需要响应此广播指令，在window上定义相应的回调函数；
++ 前端与服务端通信：由于项目存放在本地，ajax无效，通过客户端作为代理，向服务端发送请求。
+  + 常规的ajax向服务端请求数据的协议是 http://，由于运行的为本地文件，所以协议头为file://，产生了跨域不可用，解决办法是由客户端提供专用网络请求接口 httpGet/httpPost；
 
-  
+  + 通过抓包工具查看客户端向服务端发起的请求；
+  + 以智能排版为例，智能排版的缩略图就是向服务端请求的数据：
 
-  + 服务端接口返回的格式通常如下，特殊情况会有所不一样：
+![](http://ww1.sinaimg.cn/large/ec07bbd2gy1fshel4ub9pj20hr0fugqk.jpg)
 
-    > result： http状态;
-    >
-    > data： 数据;
-    >
-    >  msg： 附加信息 ;
 
-    ![](http://ww1.sinaimg.cn/large/ec07bbd2gy1fshh6ezaqaj20i2085dfs.jpg)
 
-    参考链接：http://cloud-doc.wps.cn/account/
+1.4 服务端接口返回的格式通常如下，特殊情况会有所不一样：
 
-    
+> result： http状态;
+>
+> data： 数据;
+>
+>  msg： 附加信息 ;
 
-## 项目结构
+![](http://ww1.sinaimg.cn/large/ec07bbd2gy1fshh6ezaqaj20i2085dfs.jpg)
+
+参考链接：http://cloud-doc.wps.cn/account/
+
+
+
+## 2. 项目结构
 
 **以ai-create-wpp项目为例:**
 
@@ -175,12 +171,12 @@
 
 
 
-## 主要文件的讲解
+## 3. 主要文件的讲解
 
 + 以下解析是挑取项目中的重要文件进行的讲解；
 + 其中最重要的部分是bridge.js。
 
-### api文件
+### 3.1 api文件
 
 + base64.js
   + 用于兼容cef和qt框架上编码的解码方法。
@@ -320,7 +316,7 @@
 
 
 
-### page文件
+### 3.2 page文件
 
 + aippt.vue
 
@@ -369,9 +365,7 @@
 
 
 
-
-
-## 代码编写注意事项
+## 4. 代码编写注意事项
 
 - 符合[eslint编码规范](https://github.com/standard/standard/blob/master/docs/RULES-zhcn.md)；
 - 注意模块化，保证每个模块都是一个独立的单元，不要暴露模块内部方法（通常以_开头）；
@@ -380,6 +374,6 @@
 
 
 
-## 整个项目运行流程
+## 5. 整个项目运行流程
 
 + ai-create-wpp项目的运行请查看该项目readme文档；
