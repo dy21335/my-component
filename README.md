@@ -1,10 +1,9 @@
 # vue-dotLoading-template
-
 Demo：
 
 ![](http://ww1.sinaimg.cn/large/ec07bbd2gy1fsk76pb0c1j204403ja9u.jpg)
 
-
+<br>
 
 ## Options
 
@@ -15,7 +14,7 @@ Demo：
 | numbers | Number | false    | 14      | 圆点个数      |
 | radius  | Number | false    | 50      | loading的半径 |
 
-
+<br>
 
 ## Example 
 
@@ -39,6 +38,8 @@ export default {
 ```
 
 > A Vue.js project
+
+<br>
 
 ## Build Setup
 
