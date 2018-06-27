@@ -16,18 +16,22 @@ export default {
   },
   props: {
     size: {
+      //  一个个小圆直径
       type: String,
       default: '20px'
     },
     color: {
+      //  一个个小圆颜色
       type: String,
       default: 'coral'
     },
     numbers: {
+      //  小圆个数
       type: Number,
       default: 14
     },
     radius: {
+      //  整个圆的半径
       type: Number,
       default: 50
     }
@@ -40,7 +44,7 @@ export default {
       var dotY
       for (let i = 0; i < this.numbers; ++i) {
         //  计算弧度
-        rad = Math.PI * 360 / this.numbers * i / 180
+        rad = Math.PI * 2 / this.numbers * i
         //  计算相对于圆心的x和y坐标
         dotX = Math.cos(rad) * this.radius
         dotY = Math.sin(rad) * this.radius
