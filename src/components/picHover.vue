@@ -7,8 +7,8 @@
       <button @click="toggleShow">Replace!</button>
     </div>
     <transition name="flip" mode="out-in">
-      <img v-if="!isShowing" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/28963/cartoonvideo2.jpg" />
-      <img v-else src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/28963/cartoonvideo14.jpeg" />
+      <img v-if="!isShowing" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/28963/cartoonvideo2.jpg" key="1"/>
+      <img v-else src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/28963/cartoonvideo14.jpeg" key="2"/>
     </transition>
   </div>
   </div>
@@ -61,11 +61,11 @@ export default {
     margin: 5px;
   }
 
-  main {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+  /*main {*/
+    /*display: flex;*/
+    /*flex-wrap: wrap;*/
+    /*justify-content: center;*/
+  /*}*/
 
   .img-contain:hover .overlay {
     opacity: 1;
