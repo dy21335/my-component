@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div>
     <h1>Hover me!</h1>
   <div class="img-contain">
     <div class="overlay">
@@ -43,8 +43,11 @@ export default {
     outline: 0;
     cursor: pointer;
   }
-
+  h1{
+    text-align: center;
+  }
   .img-contain {
+    margin: auto;
     width: 250px;
     height: 160px;
     overflow: hidden;
@@ -56,12 +59,6 @@ export default {
     transform-origin: 50% 50%;
     cursor: pointer;
     margin: 5px;
-  }
-
-  main {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
   }
 
   .img-contain:hover .overlay {
