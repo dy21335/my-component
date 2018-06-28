@@ -7,7 +7,7 @@
       <button @click="toggleShow">Replace!</button>
     </div>
     <transition name="flip" mode="out-in">
-      <img v-if="!isShowing" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/28963/cartoonvideo2.jpg" key="1"/>
+      <img v-if="!showing" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/28963/cartoonvideo2.jpg" key="1"/>
       <img v-else src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/28963/cartoonvideo14.jpeg" key="2"/>
     </transition>
   </div>
@@ -17,22 +17,21 @@
 <script>
 export default {
   name: 'picHover',
+  data () {
+    return {
+      showing: this.isShowing
+    }
+  },
   props: ['isShowing'],
   methods: {
     toggleShow () {
-      this.isShowing = !this.isShowing
+      this.showing = !this.showing
     }
   }
 }
 </script>
 
 <style scoped>
-  body {
-    font-family: 'Bitter', serif;
-    background: #333;
-    color: white;
-    text-align: center;
-  }
   button {
     font-family: 'Bitter';
     background: #c62735;
@@ -56,16 +55,14 @@ export default {
     -webkit-transform-origin: 50% 50%;
     transform-origin: 50% 50%;
     cursor: pointer;
-    /*-webkit-transform: scaleY(1) translateZ(0);*/
-    /*transform: scaleY(1) translateZ(0);*/
     margin: 5px;
   }
 
-  /*main {*/
-    /*display: flex;*/
-    /*flex-wrap: wrap;*/
-    /*justify-content: center;*/
-  /*}*/
+  main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 
   .img-contain:hover .overlay {
     opacity: 1;
@@ -98,7 +95,6 @@ export default {
   }
 
   .flip-enter, .flip-leave-to {
-    -webkit-transform: scaleY(0) translateZ(0);
     transform: scaleY(0) translateZ(0);
     opacity: 0;
   }
