@@ -1,13 +1,22 @@
 <template>
   <div>
-    <div id="container">
-      <img :src="imgSrc"/>
-      <div id="downPage">
         <p>
           {{paragraph}}
+          .cell:nth-child
+          .cell:nth-child
+          .cell:nth-child
+          .cell:nth-child
+          .cell:nth-child
+          .cell:nth-child
+          .cell:nth-child
+          .cell:nth-child
+          .cell:nth-child
+          .cell:nth-child
+          .cell:nth-child
+          .cell:nth-child
+          .cell:nth-child
+          .cell:nth-child
         </p>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -23,12 +32,7 @@ export default {
 
 <style scoped>
   div{
-    height:100%;
-  }
-  img{
-    display: block;
-    max-width: 100%;
-    max-height: 100%;
+    height:100px;
   }
 
 </style>
