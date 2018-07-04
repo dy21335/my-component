@@ -14,23 +14,17 @@
     overflow: auto;
 
   }
-  .content_ani{
-    position:relative;
-    margin: auto;
-    width: 500px;
-    height: 400px;
-    background-color: #FFCC99;
-    overflow: auto;
-  }
+
   ul{
     text-align: center;
     list-style: none;
     /*margin: 0;*/
     padding: 0;
     transition-delay: 0.3s;
-    transition: transform 1s ease;
+    transition: transform 1s ease-in-out;
   }
   .item{
+    position: relative;
     height: 210px;
     margin: 10px;
     /*background-color: #FFCCCC;*/
@@ -38,6 +32,8 @@
   img{
     width: 300px;
   }
+
+
   .last-child{
     text-align: center;
     height: 70px;
@@ -52,7 +48,7 @@
     <li class="item">
       <img src="../assets/2.jpg"/>
     </li>
-    <li class="item">
+    <li id="clickTest" class="item">
       <img src="../assets/2.jpg"/>
     </li>
     <li class="item">
@@ -71,38 +67,44 @@
 </div>
 </body>
 <script>
+  function easeInOutQuint(t, b, c, d) {
+    t /= d / 2;
+    if(t < 1) return c / 2 * t * t + b;
+    t--;
+    return -c / 2 * (t * (t - 2) - 1) + b;
+  }
+
   window.onload = function () {
     var ul = document.getElementsByClassName('list')
     var div = document.getElementById('conten')
     var firstChild = document.querySelector('#fist-item')
     var li = document.getElementsByTagName('li');
-    console.log("div的scrollH", div.scrollHeight)
-    console.log(div.clientHeight)
-    console.log(div.offsetTop)
+
+    //滚动到底部的反弹效果
     function edgeBounce(content){
       if(content.clientHeight + content.scrollTop < content.scrollHeight - 90){
         return
       }
       else {
-        content.scrollTop -= 2
-        console.log(content.scrollTop)
+        content.scrollTop -= easeInOutQuint(.63,0.9,0.7,1)
+        // console.log(content.scrollTop)
         window.requestAnimationFrame(edgeBounce.bind(null,div))
     }
     }
-    // console.log(div[0].offsetHeight)
-    // console.log(ul[0].getBoundingClientRect())
-    // console.log(li.firstElementChild)
+
+    //监听滚动事件
     div.addEventListener("scroll", (ev) => {
       if (div.clientHeight + div.scrollTop >= div.scrollHeight) {
-        console.log(div)
         edgeBounce(div)
-        // ul[0].style.transform = 'translateY(90px)'
-        // ul[0].setAttribute('style','translateY(90px)');
       }
     })
-   //  div.addEventListener('transitionend',()=>{
-   //   ul[0].style.transform = 'translateZ(0)'
-   // })
+
+    var clickImge = document.getElementById('clickTest')
+    clickImge.addEventListener('click',(ev)=>{
+      console.log(ev.target.style.top = '300px')
+    })
+
+
   }
 </script>
 </html>
