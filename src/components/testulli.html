@@ -5,34 +5,38 @@
     <title>Title</title>
 </head>
 <style>
-  ul {
-    width: 100px;
-    height: 100px;
+#aha{
+  width: 250px;
+  height: 300px;
+}
+#hehe{
+  width: 300px;
+}
+.content{
+  text-align: center;
+}
+  ul{
     list-style: none;
-    background-color: #ffd77d;
+    padding: 0;
   }
   li{
-    width: 100px;
-    height: 30px;
-    background-color: #ffa34f;
-    margin: 10px;
+    text-align: center;
   }
-  #test{
-    position: relative;
-    top: 50px;
-    left: 50px;
+  li #aha{
+    width: 600px;
   }
 </style>
 <body>
+<div>
+  <img id="aha" src="../assets/1.jpg">
+  <img id="hehe" src="../assets/1.jpg">
+</div>
+<div class="content">
+  <img id="aha" src="../assets/1.jpg">
+</div>
 <ul>
   <li>
-    lll
-  </li>
-  <li id="test">
-    sldfkl
-  </li>
-  <li>
-    lll
+    <img id="aha" src="../assets/1.jpg">
   </li>
 </ul>
 </body>

@@ -20,21 +20,22 @@ export default {
   data () {
     return {
       items: [
-        { src: require('../assets/2.jpg') },
-        { src: require('../assets/2.jpg') },
-        { src: require('../assets/2.jpg') },
-        { src: require('../assets/2.jpg') },
-        { src: require('../assets/2.jpg') },
-        { src: require('../assets/2.jpg') },
-        { src: require('../assets/2.jpg') },
-        { src: require('../assets/2.jpg') },
-        { src: require('../assets/2.jpg') }
+        { src: require('../assets/1.jpg') },
+        { src: require('../assets/1.jpg') },
+        { src: require('../assets/1.jpg') },
+        { src: require('../assets/1.jpg') },
+        { src: require('../assets/1.jpg') },
+        { src: require('../assets/1.jpg') },
+        { src: require('../assets/1.jpg') },
+        { src: require('../assets/1.jpg') },
+        { src: require('../assets/1.jpg') }
       ],
       elems: {
         content: {},
         list: {}
       },
-      isShow: false
+      isShow: false,
+      clickable: true
     }
   },
   components: {
@@ -64,15 +65,14 @@ export default {
     },
     //  点击图片放置顶部
     toTop (index, ev) {
+      if (this.clickable === false) return
       var div = this.$refs.content
-      //   var div = document.getElementById('content')
       var height = window.getComputedStyle(ev.currentTarget).height
-      var margin = window.getComputedStyle(ev.currentTarget).marginTop
+      var margin = window.getComputedStyle(ev.currentTarget).marginBottom
       var gapY = -(index * (parseInt(height) + parseInt(margin)) - div.scrollTop)
-      ev.currentTarget.style.transform = `translateY(${gapY}px) scale(1.2)`
-      // ev.currentTarget.style.transform = 'scale(1)'
-      // ev.currentTarget.style.height = '300px'
-      // console.log(ev.target.style)
+      ev.currentTarget.style.transform = `translateY(${gapY}px) scale(2,1.3)`
+      ev.currentTarget.childNodes[0].style.borderRadius = '0'
+      this.clickable = false
     }
   },
   beforeMount () {
@@ -94,33 +94,32 @@ export default {
   .content{
     position:relative;
     margin: auto;
-    width: 500px;
-    height: 400px;
+    width: 600px;
+    height: 800px;
     background-color: #FFCC99;
     overflow: auto;
-
   }
 
   ul{
     margin: auto;
-    text-align: center;
-    list-style: none;
     padding: 0;
+    list-style: none;
     overflow: hidden;
+    width: 100%;
   }
-  .item{
-    text-align: center;
-    width: 400px;
+  ul .item{
+    width: 300px;
     position: relative;
-    height: 210px;
-    margin: 10px;
-    transition: top 2s,transform 2s;
-    transform-origin: 0 0;
+    margin: 0px auto 10px auto;
+    transition: transform 2s;
+    transform-origin: top;
     /*background-color: #FFCCCC;*/
   }
   img{
+    border-radius: 40px;
     width: 100%;
     height: 100%;
+    transition: border-radius 2s;
   }
   .last-child{
     text-align: center;
