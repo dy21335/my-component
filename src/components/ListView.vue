@@ -9,8 +9,8 @@
         已经到底部啦~
       </li>
     </ul>
-    <transition name="slide-fade">
-      <SinglePage :imgSrc="currentImgSrc" v-show="isShow" class="page"></SinglePage>
+    <transition>
+      <SinglePage v-show="isShow" class="page"></SinglePage>
     </transition>
   </div>
 </template>
@@ -23,13 +23,13 @@ export default {
     return {
       items: [
         { src: require('../assets/1.jpg') },
-        { src: require('../assets/3.jpg') },
         { src: require('../assets/1.jpg') },
-        { src: require('../assets/3.jpg') },
         { src: require('../assets/1.jpg') },
-        { src: require('../assets/3.jpg') },
         { src: require('../assets/1.jpg') },
-        { src: require('../assets/3.jpg') },
+        { src: require('../assets/1.jpg') },
+        { src: require('../assets/1.jpg') },
+        { src: require('../assets/1.jpg') },
+        { src: require('../assets/1.jpg') },
         { src: require('../assets/1.jpg') }
       ],
       elems: {
@@ -38,8 +38,7 @@ export default {
       },
       isShow: false,
       clickable: true,
-      canScroll: true,
-      currentImgSrc: require('../assets/1.jpg')
+      canScroll: true
     }
   },
   components: {
@@ -69,20 +68,15 @@ export default {
     },
     //  点击图片放置顶部
     toTop (index, ev) {
-      var context = this
       this.canScroll = false
       if (this.clickable === false) return
       var div = this.$refs.content
       var height = window.getComputedStyle(ev.currentTarget).height
       var margin = window.getComputedStyle(ev.currentTarget).marginBottom
       var gapY = -(index * (parseFloat(height) + parseFloat(margin)) - div.scrollTop)
-      ev.currentTarget.style.transform = `translateY(${gapY}px) scale(1.2)`
-      ev.currentTarget.style.zIndex = '1000'
+      ev.currentTarget.style.transform = `translateY(${gapY}px) scale(2,1.5)`
       ev.currentTarget.childNodes[0].style.borderRadius = '0'
       this.clickable = false
-      ev.currentTarget.addEventListener('transitionend', () => {
-        console.log(context.isShow = true)
-      })
     }
   },
   beforeMount () {
@@ -109,13 +103,10 @@ export default {
   .content{
     position:relative;
     margin: auto;
-    width: 480px;
+    width: 600px;
     height: 800px;
     background-color: #FFCC99;
     overflow: auto;
-  }
-  .content::-webkit-scrollbar{
-    display: none;
   }
 
   ul{
@@ -126,18 +117,15 @@ export default {
     width: 100%;
   }
   ul .item{
-    width: 400px;
-    height: 500px;
+    width: 300px;
     position: relative;
-    margin: 0px auto 20px auto;
-    transition: transform .8s;
+    margin: 0px auto 10px auto;
+    transition: transform 1s cubic-bezier(0.3,0.2,0.5,0.5);
     transform-origin: top;
     transform: scale(1);
     /*background-color: #FFCCCC;*/
   }
-  ul .item:active{
-    transform: scale(0.9);
-  }
+
   img{
     box-shadow: 0px 5px 12px #4F4F4F;
     border-radius: 40px;
@@ -145,28 +133,18 @@ export default {
     height: 100%;
     transition: border-radius 1s;
   }
+
   .last-child{
     text-align: center;
     height: 70px;
   }
   .page{
-    height: 800px;
     position: absolute;
-    top: 0;
+    top: 190px;
     left: 0;
-    background-color: #F6C6CE;
+    background-color: #ff7611;
+    height: 210px;
+    overflow: auto;
     z-index: 1000;
-  }
-  .slide-fade-enter-active {
-    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-  }
-  .slide-fade-leave-active {
-    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-  }
-  .slide-fade-enter, .slide-fade-leave-to
-    /* .slide-fade-leave-active for below version 2.1.8 */ {
-    height: 800px;
-    opacity: 0;
-    border-radius: 40px;
   }
 </style>

@@ -1,21 +1,8 @@
 <template>
   <div>
+    <img :src="imgSrc">
         <p>
-          {{paragraph}}
-          .cell:nth-child
-          .cell:nth-child
-          .cell:nth-child
-          .cell:nth-child
-          .cell:nth-child
-          .cell:nth-child
-          .cell:nth-child
-          .cell:nth-child
-          .cell:nth-child
-          .cell:nth-child
-          .cell:nth-child
-          .cell:nth-child
-          .cell:nth-child
-          .cell:nth-child
+          中华小当家
         </p>
   </div>
 </template>
@@ -32,7 +19,11 @@ export default {
 
 <style scoped>
   div{
-    height:100px;
+    background-color: #F6C6CE;
+  }
+  img{
+    width: 480px;
+    height: 600px;
   }
 
 </style>
