@@ -1,14 +1,16 @@
 <template>
-  <div ref="content" id="content" class="content">
-    <ul ref="list" class="list" >
-      <li ref="firstChid" id="fist-item"></li>
-      <li v-for="(item, index) in items" :key="index" class="item" @click="toTop(index,$event)">
-        <img :src="item.src"/>
-      </li>
-      <li ref="lastChild" class="last-child">
-        已经到底部啦~
-      </li>
-    </ul>
+  <div class="wrapper">
+    <div ref="content" id="content" class="content">
+      <ul ref="list" class="list" >
+        <li ref="firstChid" id="fist-item"></li>
+        <li v-for="(item, index) in items" :key="index" class="item" @click="toTop(index,$event)">
+          <img :src="item.src"/>
+        </li>
+        <li ref="lastChild" class="last-child">
+          已经到底部啦~
+        </li>
+      </ul>
+    </div>
     <transition name="slide-fade">
       <SinglePage :imgSrc="currentImgSrc" v-show="isShow" class="page"></SinglePage>
     </transition>
@@ -69,8 +71,9 @@ export default {
     },
     //  点击图片放置顶部
     toTop (index, ev) {
+      console.log(ev.currentTarget.offsetTop)
       var context = this
-      this.canScroll = false
+      // this.canScroll = false
       if (this.clickable === false) return
       var div = this.$refs.content
       var height = window.getComputedStyle(ev.currentTarget).height
@@ -106,9 +109,14 @@ export default {
 </script>
 
 <style scoped>
+  .wrapper{
+    margin: auto;
+    width: 480px;
+    transform:translate(0,0);
+  }
   .content{
     position:relative;
-    margin: auto;
+    margin: 300px auto;
     width: 480px;
     height: 800px;
     background-color: #FFCC99;
