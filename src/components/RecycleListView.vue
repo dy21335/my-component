@@ -52,7 +52,6 @@ export default {
     init () {
       this.elems.content = this.$refs.content
       this.elems.list = this.$refs.list
-      console.log(this.$refs.hasOwnProperty('list'))
     },
     //  cubic函数
     easeInOutQuint (t, b, c, d) {
@@ -83,6 +82,7 @@ export default {
       ev.currentTarget.style.zIndex = '1000'
       ev.currentTarget.childNodes[0].style.borderRadius = '0'
       this.clickable = false
+      this.currentImgSrc = this.items[index].src
       ev.currentTarget.addEventListener('transitionend', () => {
         console.log(context.isShow = true)
       })
