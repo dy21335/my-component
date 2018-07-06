@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <!--<router-link :to="{ name: 'singlePge'}">User</router-link>-->
     <router-view/>
   </div>
 </template>

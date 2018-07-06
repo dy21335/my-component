@@ -1,35 +1,38 @@
 <template>
-  <div ref="content" id="content" class="content">
-    <ul ref="list" class="list" >
-      <li ref="firstChid" id="fist-item"></li>
-      <li v-for="(item, index) in items" :key="index" class="item" @click="toTop(index,$event)">
-        <img :src="item.src"/>
-      </li>
-      <li ref="lastChild" class="last-child">
-        已经到底部啦~
-      </li>
-    </ul>
-    <transition>
-      <SinglePage v-show="isShow" class="page"></SinglePage>
+  <div class="wrapper">
+    <div ref="content" id="content" class="content">
+      <ul ref="list" class="list" >
+        <li ref="firstChid" id="fist-item"></li>
+        <li v-for="(item, index) in items" :key="index" class="item" @click="toTop(index,$event)">
+          <SinglePge v-show="isShow" :imgSrc="currentImgSrc" class="page"></SinglePge>
+        </li>
+        <li ref="lastChild" class="last-child">
+          已经到底部啦~
+        </li>
+      </ul>
+    </div>
+    <transition name="slide-fade" @after-enter="afterEnter">
+      <SinglePge v-show="isShow" :imgSrc="currentImgSrc" class="page"></SinglePge>
     </transition>
   </div>
 </template>
 
 <script>
-import SinglePage from '@/components/SinglePage'
+import Bus from '../api/busEvent'
+import SinglePage from '@/components/SinglePge'
 export default {
   name: 'RecycleListView',
   data () {
     return {
       items: [
         { src: require('../assets/1.jpg') },
+        { src: require('../assets/3.jpg') },
         { src: require('../assets/1.jpg') },
+        { src: require('../assets/3.jpg') },
         { src: require('../assets/1.jpg') },
+        { src: require('../assets/3.jpg') },
         { src: require('../assets/1.jpg') },
-        { src: require('../assets/1.jpg') },
-        { src: require('../assets/1.jpg') },
-        { src: require('../assets/1.jpg') },
-        { src: require('../assets/1.jpg') },
+        { src: require('../assets/3.jpg') },
         { src: require('../assets/1.jpg') }
       ],
       elems: {
@@ -38,18 +41,23 @@ export default {
       },
       isShow: false,
       clickable: true,
-      canScroll: true
+      canScroll: true,
+      currentImgSrc: require('../assets/1.jpg'),
+      currentItem: {},
+      singlePage: false
     }
   },
   components: {
     SinglePage
   },
   methods: {
+    afterEnter () {
+      console.log('afterEnter')
+    },
     //  行不通
     init () {
       this.elems.content = this.$refs.content
       this.elems.list = this.$refs.list
-      console.log(this.$refs.hasOwnProperty('list'))
     },
     //  cubic函数
     easeInOutQuint (t, b, c, d) {
@@ -66,21 +74,46 @@ export default {
         window.requestAnimationFrame(this.edgeBounce.bind(null, content))
       }
     },
-    //  点击图片放置顶部
+    //  点击图片放置顶部事件
     toTop (index, ev) {
-      this.canScroll = false
+      var context,
+        div,
+        height,
+        margin,
+        gapY
+      context = this
+      // this.canScroll = false
       if (this.clickable === false) return
-      var div = this.$refs.content
-      var height = window.getComputedStyle(ev.currentTarget).height
-      var margin = window.getComputedStyle(ev.currentTarget).marginBottom
-      var gapY = -(index * (parseFloat(height) + parseFloat(margin)) - div.scrollTop)
-      ev.currentTarget.style.transform = `translateY(${gapY}px) scale(2,1.5)`
+      div = this.$refs.content
+      height = window.getComputedStyle(ev.currentTarget).height
+      margin = window.getComputedStyle(ev.currentTarget).marginBottom
+      gapY = -(index * (parseFloat(height) + parseFloat(margin)) - div.scrollTop)
+      ev.currentTarget.style.transform = `translateY(${gapY}px) scale(1.2)`
+      ev.currentTarget.style.zIndex = '1000'
       ev.currentTarget.childNodes[0].style.borderRadius = '0'
       this.clickable = false
+      this.currentImgSrc = this.items[index].src
+      this.currentItem = ev.currentTarget
+      this.singlePage = false
+      ev.currentTarget.addEventListener('transitionend', () => {
+        if (context.singlePage) return
+        context.singlePage = true
+        context.isShow = true
+        // ev.currentTarget.removeEventListener('transitionend')
+      })
     }
   },
+  beforeCreate () {
+    Bus.$on('toggleIsShow', () => {
+      this.currentItem.style = ''
+      this.currentItem.childNodes[0].style.borderRadius = '40px'
+      this.isShow = false
+      this.clickable = true
+      this.singlePage = true
+    })
+  },
   beforeMount () {
-    this.init()
+    // this.init()
   },
   mounted () {
     var div = document.getElementById('content')
@@ -100,13 +133,21 @@ export default {
 </script>
 
 <style scoped>
+  .wrapper{
+    margin: auto;
+    width: 480px;
+    transform:translate(0,0);
+  }
   .content{
     position:relative;
-    margin: auto;
-    width: 600px;
+    margin: 300px auto;
+    width: 480px;
     height: 800px;
     background-color: #FFCC99;
     overflow: auto;
+  }
+  .content::-webkit-scrollbar{
+    display: none;
   }
 
   ul{
@@ -117,15 +158,18 @@ export default {
     width: 100%;
   }
   ul .item{
-    width: 300px;
+    width: 400px;
+    height: 500px;
     position: relative;
-    margin: 0px auto 10px auto;
-    transition: transform 1s cubic-bezier(0.3,0.2,0.5,0.5);
+    margin: 0px auto 20px auto;
+    transition: transform .8s;
     transform-origin: top;
     transform: scale(1);
     /*background-color: #FFCCCC;*/
   }
-
+  ul .item:active{
+    transform: scale(0.9);
+  }
   img{
     box-shadow: 0px 5px 12px #4F4F4F;
     border-radius: 40px;
@@ -133,18 +177,41 @@ export default {
     height: 100%;
     transition: border-radius 1s;
   }
-
   .last-child{
     text-align: center;
     height: 70px;
   }
   .page{
+    height: 800px;
     position: absolute;
-    top: 190px;
+    top: 0;
     left: 0;
-    background-color: #ff7611;
-    height: 210px;
-    overflow: auto;
+    background-color: #F6C6CE;
     z-index: 1000;
+  }
+  .slide-fade-enter-active {
+    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .slide-fade-enter
+    /* .slide-fade-leave-active for below version 2.1.8 */
+  {
+    height: 800px;
+    opacity: 0;
+    /*border-radius: 40px;*/
+  }
+  /*.slide-fade-enter-to*/
+  /*{*/
+    /*height: 800px;*/
+    /*opacity: 0;*/
+    /*!*border-radius: 40px;*!*/
+  /*}*/
+  .slide-fade-leave-active{
+    transition: all 5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .slide-fade-leave{
+    transform: scaleY(1);
+  }
+  .slide-fade-leave-to{
+    transform: scaleY(0);
   }
 </style>

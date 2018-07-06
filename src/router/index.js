@@ -3,7 +3,8 @@ import Router from 'vue-router'
 import dotLoading from '@/components/dotLoading'
 import picHover from '@/components/picHover'
 import RecycleListView from '@/components/RecycleListView'
-import SinglePage from '@/components/SinglePage'
+import ListView from '@/components/ListView'
+import SinglePge from '@/components/SinglePge'
 
 Vue.use(Router)
 
@@ -26,12 +27,17 @@ export default new Router({
       component: RecycleListView
     },
     {
-      path: '/singlePage',
-      name: 'singlePage',
-      component: SinglePage,
+      path: '/singlePge',
+      name: 'singlePge',
+      component: SinglePge,
       props: {
         imgSrc: require('../assets/1.jpg')
       }
+    },
+    {
+      path: '/listview',
+      name: 'ListView',
+      component: ListView
     }
   ]
 })

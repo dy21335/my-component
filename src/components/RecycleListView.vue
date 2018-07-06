@@ -11,13 +11,14 @@
         </li>
       </ul>
     </div>
-    <transition name="slide-fade">
-      <SinglePage :imgSrc="currentImgSrc" v-show="isShow" class="page"></SinglePage>
+    <transition name="slide-fade" @after-enter="afterEnter">
+      <SinglePage v-show="isShow" :imgSrc="currentImgSrc" class="page"></SinglePage>
     </transition>
   </div>
 </template>
 
 <script>
+import Bus from '../api/busEvent'
 import SinglePage from '@/components/SinglePage'
 export default {
   name: 'RecycleListView',
@@ -41,13 +42,18 @@ export default {
       isShow: false,
       clickable: true,
       canScroll: true,
-      currentImgSrc: require('../assets/1.jpg')
+      currentImgSrc: require('../assets/1.jpg'),
+      currentItem: {},
+      singlePage: false
     }
   },
   components: {
     SinglePage
   },
   methods: {
+    afterEnter () {
+      console.log('afterEnter')
+    },
     //  行不通
     init () {
       this.elems.content = this.$refs.content
@@ -68,28 +74,46 @@ export default {
         window.requestAnimationFrame(this.edgeBounce.bind(null, content))
       }
     },
-    //  点击图片放置顶部
+    //  点击图片放置顶部事件
     toTop (index, ev) {
-      console.log(ev.currentTarget.offsetTop)
-      var context = this
+      var context,
+        div,
+        height,
+        margin,
+        gapY
+      context = this
       // this.canScroll = false
       if (this.clickable === false) return
-      var div = this.$refs.content
-      var height = window.getComputedStyle(ev.currentTarget).height
-      var margin = window.getComputedStyle(ev.currentTarget).marginBottom
-      var gapY = -(index * (parseFloat(height) + parseFloat(margin)) - div.scrollTop)
+      div = this.$refs.content
+      height = window.getComputedStyle(ev.currentTarget).height
+      margin = window.getComputedStyle(ev.currentTarget).marginBottom
+      gapY = -(index * (parseFloat(height) + parseFloat(margin)) - div.scrollTop)
       ev.currentTarget.style.transform = `translateY(${gapY}px) scale(1.2)`
       ev.currentTarget.style.zIndex = '1000'
       ev.currentTarget.childNodes[0].style.borderRadius = '0'
       this.clickable = false
       this.currentImgSrc = this.items[index].src
+      this.currentItem = ev.currentTarget
+      this.singlePage = false
       ev.currentTarget.addEventListener('transitionend', () => {
-        console.log(context.isShow = true)
+        if (context.singlePage) return
+        context.singlePage = true
+        context.isShow = true
+        // ev.currentTarget.removeEventListener('transitionend')
       })
     }
   },
+  beforeCreate () {
+    Bus.$on('toggleIsShow', () => {
+      this.currentItem.style = ''
+      this.currentItem.childNodes[0].style.borderRadius = '40px'
+      this.isShow = false
+      this.clickable = true
+      this.singlePage = true
+    })
+  },
   beforeMount () {
-    this.init()
+    // this.init()
   },
   mounted () {
     var div = document.getElementById('content')
@@ -168,13 +192,23 @@ export default {
   .slide-fade-enter-active {
     transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
   }
-  .slide-fade-leave-active {
-    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-  }
-  .slide-fade-enter, .slide-fade-leave-to
-    /* .slide-fade-leave-active for below version 2.1.8 */ {
+  .slide-fade-enter
+    /* .slide-fade-leave-active for below version 2.1.8 */
+  {
     height: 800px;
     opacity: 0;
-    border-radius: 40px;
+    /*border-radius: 40px;*/
+  }
+  /*.slide-fade-enter-to*/
+  /*{*/
+    /*height: 800px;*/
+    /*opacity: 0;*/
+    /*!*border-radius: 40px;*!*/
+  /*}*/
+  .slide-fade-leave-active{
+    transition: all 5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .slide-fade-leave-to{
+    opacity: 0;
   }
 </style>
