@@ -31,8 +31,6 @@ export default {
         { src: require('../assets/3.jpg') },
         { src: require('../assets/1.jpg') },
         { src: require('../assets/3.jpg') },
-        { src: require('../assets/1.jpg') },
-        { src: require('../assets/3.jpg') },
         { src: require('../assets/1.jpg') }
       ],
       elems: {
@@ -104,7 +102,7 @@ export default {
     }
   },
   beforeCreate () {
-    Bus.$on('toggleIsShow', () => {
+    Bus.$on('toggleIsShow', (elem) => {
       this.currentItem.style = ''
       this.currentItem.childNodes[0].style.borderRadius = '40px'
       this.isShow = false
@@ -124,6 +122,9 @@ export default {
       }
     })
     div.addEventListener('mousewheel', (ev) => {
+      console.log('mousewhell', ev.deltaY)
+      // ev.preventDefault()
+      // ev.currentTarget.scrollTop = ev.deltaY + 32
       if (!this.canScroll) {
         ev.preventDefault()
       }
@@ -186,8 +187,8 @@ export default {
     position: absolute;
     top: 0;
     left: 0;
-    background-color: #F6C6CE;
     z-index: 1000;
+    /*transform: translateY(100px);*/
   }
   .slide-fade-enter-active {
     transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
@@ -199,16 +200,13 @@ export default {
     opacity: 0;
     /*border-radius: 40px;*/
   }
-  /*.slide-fade-enter-to*/
-  /*{*/
-    /*height: 800px;*/
-    /*opacity: 0;*/
-    /*!*border-radius: 40px;*!*/
-  /*}*/
   .slide-fade-leave-active{
-    transition: all 5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    transition: all .8s;
   }
+
   .slide-fade-leave-to{
     opacity: 0;
+    /*transform: scaleY(0);*/
+    /*transform-origin: center;*/
   }
 </style>

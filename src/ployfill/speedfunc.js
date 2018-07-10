@@ -44,7 +44,7 @@ export var animatedScrollTo = function(element, to, duration,callback, Bzr='line
     }
     requestAnimFrame(animateScroll);
     var now = +new Date();
-    var val = Math.floor(tween[Bzr](now - animationStart, start, change, duration));
+    var val = Math.floor(tween[Bzr](now - animationStart, start, change, duration))
 
     if(lastpos) {
       if(lastpos === element.scrollTop) {

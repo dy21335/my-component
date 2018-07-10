@@ -1,10 +1,10 @@
 <template>
     <div class="container">
-      <div id="icon" @click="toggleShow">
+      <div id="icon" @click="toggleShow($event)">
         <img :src="iconSrc">
       </div>
+      <img class="cover" :src="imgSrc">
       <div class="forScroll">
-        <img :src="imgSrc">
         <p>
           文章的排版很重要，它可以突出文章的主题，让读者可以一口气读完它而不废气。好的排版更是能让人感到阅读的乐趣，毕竟文章是为了传达信息，如下图，如果下面是一则广告传单，你会去看它吗？不会，直接就扔垃圾桶了，谁会在这一堆密密麻麻的文字中寻读呢?下面将介绍如何使用css进行排版.
           增强对比
@@ -32,8 +32,8 @@ export default {
   computed: {
   },
   methods: {
-    toggleShow () {
-      Bus.$emit('toggleIsShow', 'singlePage')
+    toggleShow (ev) {
+      Bus.$emit('toggleIsShow', ev.currentTarget.parentNode)
     }
   }
 }
@@ -41,17 +41,19 @@ export default {
 
 <style scoped>
   .container{
-    transform: translate(0,0);
+    /*transform: translate(0,0);*/
     overflow: hidden;
   }
-  div.forScroll{
+  .forScroll{
     height: 100%;
     background-color: #F6C6CE;
     overflow: auto;
   }
-  img{
+  .cover{
+    display: block;
     width: 480px;
     height: 600px;
+    visibility: hidden;
   }
   p{
     padding: 10px;
@@ -71,17 +73,16 @@ export default {
   /*.slide-fade-enter-active {*/
     /*transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);*/
   /*}*/
-  .slide-fade-leave-active {
-    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-  }
   /*.slide-fade-enter*/
-    /*!* .slide-fade-leave-active for below version 2.1.8 *!*/
   /*{*/
     /*height: 800px;*/
     /*opacity: 0;*/
     /*!*border-radius: 40px;*!*/
   /*}*/
-  .slide-fade-leave{
-    transform: translateY(0);
-  }
+  /*.slide-fade-leave-to{*/
+       /*transform: scaleY(0);*/
+     /*}*/
+  /*.slide-fade-leave-active {*/
+    /*transition: transform 5s;*/
+  /*}*/
 </style>
