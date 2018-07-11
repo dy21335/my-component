@@ -6,6 +6,7 @@
 </head>
 <style>
   .wrapper{
+    position: relative;
     height: 800px;
     width: 600px;
     padding: 30px;
@@ -14,11 +15,14 @@
     margin: 0;
   }
   .scrollWrapper{
-    /*position: relative;*/
+    position: static;
     width: 600px;
     height:4500px;
   }
   .content{
+    position: absolute;
+    top: 0;
+    left: 0;
     margin: auto;
     height:4500px;
     width: 400px;
@@ -28,8 +32,8 @@
   }
 </style>
 <body>
-<div class="wrapper">
-  <div .scrollWrapper>
+<div id="test" class="wrapper">
+  <div class="scrollWrapper">
     <div class="content">
       Babel Compatibility Notes
       If using Babel 7, use 4.x
@@ -193,57 +197,46 @@
 </div>
 
 </body>
+<script type="text/javascript" src="./smoothScroll2.js"></script>
 <script>
-
   window.onload = function () {
     var wrapper = document.getElementsByClassName('wrapper')
     var content = document.getElementsByClassName('content');
-    var id
-    // var gapY = 100;
+    smoothScroll(wrapper[0])
 
-    function animateScrollTo(v, direction, elem, start, gapY) {
-      //v取值为1~5最好
-      var delta = Math.exp(-16.7 / 325)
-      var lastTime = new Date()
-      var v = 10*v
-      var temp = wrapper[0].scrollTop
-        function animationScroll() {
-        // console.log(wrapper[0].scrollTop)
-        var currentT = new Date()
-          var elapsed = currentT - lastTime
-          var delta = v * Math.exp(-elapsed / 325)
-          delta = direction > 0 ? delta : -delta
-          // debugger
-          elem.scrollTop += delta
-          if (elapsed > 1500 || Math.abs(start - elem.scrollTop) == 0){
-          console.log('end')
-            cancelAnimationFrame(id)
-          }
-          else {
-            id = requestAnimationFrame(animationScroll);
-          }
+    function normalSpeed(v, t, a) {
+       return v*t - 1/2*a*t*t
+    }
+
+    function test () {
+      var lastTime = 0
+      var lastPos = 0
+      // console.log('lastTime', lastTime)
+      var t = 0, v = 60, a = 0.3, d = 60;
+      t = v/a
+      console.log('t',t/16)
+
+      var step = function () {
+        // console.log('e',elapsed*0.001)
+
+        v = 60 - a*lastTime
+        // console.log('v', v)
+        // console.log('e', elapsed)
+        var currentPos = normalSpeed(60, lastTime, a)
+        lastTime++
+        var change = currentPos - lastPos
+        lastPos = currentPos
+        console.log('change', change)
+        if (v >= 0) {
+          // 继续运动
+          requestAnimationFrame(step)
+        } else {
+          console.log('over')
         }
-        animationScroll()
+      }
+      step()
     }
 
-    function scrollY(event, context){
-      // console.log(event.deltaY)
-      event.preventDefault();
-      if(event.deltaY > 0){
-        // window.requestAnimationFrame(move.bind(this.parentNode, t))
-        // var velocity = speed()
-        cancelAnimationFrame(id)
-        animateScrollTo(2, 1, wrapper[0], wrapper[0].scrollTop, 300)
-      }
-      else if (event.deltaY < 0){
-        cancelAnimationFrame(id)
-        animateScrollTo(2, -1, wrapper[0], wrapper[0].scrollTop, 300)
-      }
-
-    }
-    bscrollY = scrollY.bind(content[0]);
-
-    wrapper[0].addEventListener('mousewheel',bscrollY)
   }
 </script>
 </html>
