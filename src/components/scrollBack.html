@@ -92,15 +92,153 @@
       }
       Difference from React JSX
       First, Vue 2.0's vnode format is different from React's. The second argument to the createElement call is a "data object" that accepts nested objects. Each nested object will be then processed by corresponding modules:
+      "dev": "cross-env BABEL_ENV=product webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+      "start": "npm run dev",
+      "bootstrap": "(yarn || npm i) && npm run dist",
+      "lint": "eslint --ext .js,.vue src",
+      "lint:fix": "eslint --ext .js,.vue src --fix",
+      "build": "cross-env BABEL_ENV=product node build/build.js",
+      "build:umd": "cross-env BABEL_ENV=product webpack --config build/webpack.umd.js",
+      "build:component": "cross-env BABEL_ENV=product webpack --config build/webpack.component.js",
+      "build:tool": "cross-env BABEL_ENV=product webpack --config build/webpack.tool.js",
+      "docs:dev": "vuepress dev docs",
+      "docs:build": "vuepress build docs",
+      "unit": "jest --config test/unit/jest.conf.js --silent",
+      "test": "npm run lint && npm run unit",
+      "clean": "rimraf lib && rimraf test/**/coverage",
+      "dist": "npm run clean && npm run test && npm run build:umd && npm run build:component && npm run build:tool",
+      "version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md",
+      "release": "sh build/release.sh"
+      },
+      "dependencies": {
+      "classnames": "^2.2.3",
+      "deepmerge": "^2.1.1",
+      "dom-scroll-into-view": "^1.2.1",
+      "element-resize-detector": "^1.1.14",
+      "lodash.throttle": "^4.1.1",
+      "popper.js": "^1.14.3",
+      "promise-polyfill": "8.0.0",
+      "vue-lazyload": "^1.1.4",
+      "vue-router": "^3.0.1",
+      "vuex": "^3.0.1"
+      },
+      "devDependencies": {
+      "@vue/test-utils": "^1.0.0-beta.15",
+      "autoprefixer": "^7.1.2",
+      "axios": "^0.17.1",
+      "babel-core": "^6.22.1",
+      "babel-eslint": "^8.2.1",
+      "babel-helper-vue-jsx-merge-props": "^2.0.3",
+      "babel-jest": "^22.4.3",
+      "babel-loader": "^7.1.1",
+      "babel-plugin-dynamic-import-node": "^1.2.0",
+      "babel-plugin-syntax-jsx": "^6.18.0",
+      "babel-plugin-transform-runtime": "^6.22.0",
+      "babel-plugin-transform-vue-jsx": "^3.5.0",
+      "babel-preset-env": "^1.3.2",
+      "babel-preset-stage-0": "^6.24.1",
+      "babel-preset-stage-2": "^6.22.0",
+      "chalk": "^2.0.1",
+      "copy-webpack-plugin": "^4.0.1",
+      "cross-env": "^5.2.0",
+      "css-loader": "^0.28.0",
+      "eslint": "^4.15.0",
+      "eslint-config-standard": "^10.2.1",
+      "eslint-friendly-formatter": "^3.0.0",
+      "eslint-loader": "^1.7.1",
+      "eslint-plugin-html": "^3.0.0",
+      "eslint-plugin-import": "^2.7.0",
+      "eslint-plugin-node": "^5.2.0",
+      "eslint-plugin-promise": "^3.4.0",
+      "eslint-plugin-standard": "^3.0.1",
+      "eslint-plugin-vue": "^4.0.0",
+      "eslint-plugin-vuefix": "^0.2.1",
+      "extract-text-webpack-plugin": "^3.0.0",
+      "file-loader": "^1.1.4",
+      "friendly-errors-webpack-plugin": "^1.6.1",
+      "html-webpack-plugin": "^2.30.1",
+      "imagemin-webpack-plugin": "^1.5.2",
+      "jest": "^22.4.3",
+      "jest-serializer-vue": "^1.0.0",
+      "jsonp": "^0.2.1",
+      "less": "^2.7.3",
+      "less-loader": "^4.0.5",
+      "mockjs": "^1.0.1-beta3",
+      "node-notifier": "^5.1.2",
+      "optimize-css-assets-webpack-plugin": "^3.2.0",
+      "ora": "^1.2.0",
+      "portfinder": "^1.0.13",
+      "postcss-import": "^11.0.0",
+      "postcss-loader": "^2.0.8",
+      "postcss-url": "^7.2.1",
+      "progress-bar-webpack-plugin": "^1.11.0",
+      "regenerator-runtime": "^0.11.1",
+      "rimraf": "^2.6.2",
+      "semver": "^5.3.0",
+      "shelljs": "^0.7.6",
+      "uglifyjs-webpack-plugin": "^1.1.1",
+      "url-loader": "^0.5.8",
+      Babel Compatibility Notes
+      If using Babel 7, use 4.x
+      If using Babel 6, use 3.x
+      Requirements
+      Assumes you are using Babel with a module bundler e.g. Webpack, because the spread merge helper is imported as a module to avoid duplication.
 
-      render (h) {
-      return h('div', {{
-      "name": "@wps/docer-component",
-      "version": "0.1.4",
-      "description": "稻壳（文档美化）基础组件",
-      "author": "hulei <hulei@wps.cn>",
-      "main": "lib/wps-ui.umd.js",
-      "scripts": {
+      This is mutually exclusive with babel-plugin-transform-react-jsx.
+
+      Usage
+      npm install\
+      babel-plugin-syntax-jsx\
+      babel-plugin-transform-vue-jsx\
+      babel-helper-vue-jsx-merge-props\
+      babel-preset-env\
+      --save-dev
+      In your .babelrc:
+
+      {
+      "presets": ["env"],
+      "plugins": ["transform-vue-jsx"]
+      }
+      The plugin transpiles the following JSX:
+
+      <div id="foo">{this.text}</div>
+      To the following JavaScript:
+
+      h('div', {
+      attrs: {
+      id: 'foo'
+      }
+      }, [this.text])
+      Note the h function, which is a shorthand for a Vue instance's $createElement method, must be in the scope where the JSX is. Since this method is passed to component render functions as the first argument, in most cases you'd do this:
+
+      Vue.component('jsx-example', {
+      render (h) { // <-- h must be in scope
+      return <div id="foo">bar</div>
+      }
+      })
+      h auto-injection
+      Starting with version 3.4.0 we automatically inject const h = this.$createElement in any method and getter (not functions or arrow functions) declared in ES2015 syntax that has JSX so you can drop the (h) parameter.
+
+      Vue.component('jsx-example', {
+      render () { // h will be injected
+      return <div id="foo">bar</div>
+      },
+      myMethod: function () { // h will not be injected
+      return <div id="foo">bar</div>
+      },
+      someOtherMethod: () => { // h will not be injected
+      return <div id="foo">bar</div>
+      }
+      })
+
+      @Component
+      class App extends Vue {
+      get computed () { // h will be injected
+      return <div id="foo">bar</div>
+      }
+      }
+      Difference from React JSX
+      First, Vue 2.0's vnode format is different from React's. The second argument to the createElement call is a "data object" that accepts nested objects. Each nested object will be then processed by corresponding modules:
       "dev": "cross-env BABEL_ENV=product webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
       "start": "npm run dev",
       "bootstrap": "(yarn || npm i) && npm run dist",
@@ -193,57 +331,13 @@
 </div>
 
 </body>
+<script type="text/javascript" src="./smoothScroll.js"></script>
 <script>
-
   window.onload = function () {
     var wrapper = document.getElementsByClassName('wrapper')
     var content = document.getElementsByClassName('content');
-    var id
-    // var gapY = 100;
+    smoothScroll(wrapper[0])
 
-    function animateScrollTo(v, direction, elem, start, gapY) {
-      //v取值为1~5最好
-      var delta = Math.exp(-16.7 / 325)
-      var lastTime = new Date()
-      var v = 10*v
-      var temp = wrapper[0].scrollTop
-        function animationScroll() {
-        // console.log(wrapper[0].scrollTop)
-        var currentT = new Date()
-          var elapsed = currentT - lastTime
-          var delta = v * Math.exp(-elapsed / 325)
-          delta = direction > 0 ? delta : -delta
-          // debugger
-          elem.scrollTop += delta
-          if (elapsed > 1500 || Math.abs(start - elem.scrollTop) == 0){
-          console.log('end')
-            cancelAnimationFrame(id)
-          }
-          else {
-            id = requestAnimationFrame(animationScroll);
-          }
-        }
-        animationScroll()
-    }
-
-    function scrollY(event, context){
-      // console.log(event.deltaY)
-      event.preventDefault();
-      if(event.deltaY > 0){
-        // window.requestAnimationFrame(move.bind(this.parentNode, t))
-        // var velocity = speed()
-        cancelAnimationFrame(id)
-        animateScrollTo(2, 1, wrapper[0], wrapper[0].scrollTop, 300)
-      }
-      else if (event.deltaY < 0){
-        cancelAnimationFrame(id)
-        animateScrollTo(2, -1, wrapper[0], wrapper[0].scrollTop, 300)
-      }
-
-    }
-    bscrollY = scrollY.bind(content[0]);
-
-    wrapper[0].addEventListener('mousewheel',bscrollY)
   }
 </script>
 </html>

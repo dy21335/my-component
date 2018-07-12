@@ -12,7 +12,6 @@ function smoothScroll (elem) {
   function animateScrollTo (direction, elem, start) {
     var lastTime = 0
     var lastPos = 0
-    var index = 0
     // console.log('lastTime', lastTime)
     // var t = 0, vo = 30, a = 0.9；
     var t = 0, vo = 30, a = 0.9
@@ -45,7 +44,7 @@ function smoothScroll (elem) {
     requestAnimationFrame(animationScroll)
   }
 
-  function scrollY (event) {
+  function scrollY (vt, a, event) {
     // console.log(event.deltaY)
     event.preventDefault()
     var direction = event.deltaY > 0 ? 1 : -1
@@ -53,6 +52,6 @@ function smoothScroll (elem) {
     animateScrollTo(direction, elem, elem.scrollTop)
   }
 
-  var bscrollY = scrollY.bind(elem[0])
+  var bscrollY = scrollY.bind(elem[0], 30, 0.9)
   elem.addEventListener('mousewheel', bscrollY)
 }
