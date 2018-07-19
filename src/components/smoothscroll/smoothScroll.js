@@ -8,7 +8,6 @@ function smoothScroll (elem) {
     var lastTime = new Date().getTime()
     v = 10 * v
     function animationScroll () {
-      index++
       // console.log(wrapper[0].scrollTop)
       var currentT = new Date().getTime()
       var elapsed = currentT - lastTime
@@ -25,7 +24,7 @@ function smoothScroll (elem) {
   }
   function scrollY (event) {
     //判断是否下滑到底部
-    if(elem.scrollTop + elem.offsetHeight >= elem.scrollHeight && event.deltaY < 0){
+    if(elem.scrollTop + elem.offsetHeight >= elem.scrollHeight && event.deltaY > 0){
       console.log('到底啦~');
     }
     event.preventDefault()
