@@ -55,9 +55,10 @@ export default {
 
   img {
     width: 100%;
-    -webkit-transform-origin: 50% 50%;
     transform-origin: 50% 50%;
     cursor: pointer;
+    -webkit-transform: scaleY(1) translateZ(0);
+    transform: scaleY(1) translateZ(0);
     margin: 5px;
   }
 
